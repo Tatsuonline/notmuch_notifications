@@ -1,0 +1,37 @@
+#+TITLE: Notmuch Notifications 
+#+AUTHOR: Alexander Phillips
+#+EMAIL: mail@alexanderphillips.net
+-----
+
+This is a very simple Rust program designed to check a remote mail server where notmuch is setup and provide a notification on your client computer if new mail has arrived. It also plays a small wav file as part of the notification.
+
+To use it, first ensure you can SSH into your mail server without a password. Then do the following:
+
+#+BEGIN_SRC bash
+git clone thisrepo
+#+END_SRC
+
+Now, edit the src/main.rs file and change the following parts to your use case:
+
+#+BEGIN_SRC bash
+mail@mail-server # Your username and mail server.
+/home/tatsu/Programming/notmuch_notifications/media/spock_mail.wav # The location of your chosen notification sound file.
+#+END_SRC
+
+Build the release in the folder:
+
+#+BEGIN_SRC bash
+cargo build --release
+#+END_SRC
+
+The code is now ready. We can set up the cron job now to run every minute (or whatever you prefer). Note that the DISPLAY=:0 portion is necessary:
+
+#+BEGIN_SRC bash
+* * * * * export DISPLAY=:0 && /path/to/the/folder/notmuch_notifications/target/release/notmuch_notifications
+#+END_SRC
+
+This should produce the following notification when you receive new mail:
+
+#+CAPTION: Screenshot of an example notification.
+#+NAME: Notification screenshot.
+[[./media/screenshot.png]]
